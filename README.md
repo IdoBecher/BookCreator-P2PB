@@ -1,5 +1,5 @@
 # BookCreator-P2PB — From Prompt to Picture-Book  
-*A Colab-friendly pipeline that turns a short prompt (**topic, character**) into a 5-scene picture-book using Stable Diffusion 1.5 + IP-Adapter with CLIP-based selection.*
+*An end-to-end, reproducible pipeline for five-scene picture-book generation using SD 1.5 + IP-Adapter with CLIP-based selection.*
 
 > **Goal.** Keep the **same main character** recognizable across scenes, while **layouts stay diverse** and each image matches its **scene caption**.
 
@@ -8,12 +8,11 @@
 ## 🌐 Live demo (GitHub Pages)
 
 - Project hub: **https://idobecher.github.io/BookCreator-P2PB/**  
-  (If you don’t see it yet: *Settings → Pages → Deploy from a branch → main /docs*.)
 
 Storybook examples (HTML):
-- `docs/stories/storybook_cat.html`  
-- `docs/stories/storybook_dog.html`  
-- `docs/stories/storybook_robot.html`
+- `docs/rainbow-kittens-adventure.html`  
+- `docs/puppy-playdate.html`  
+- `docs/robot-waiter-at-the-table.html`
 
 ---
 
@@ -26,7 +25,6 @@ Storybook examples (HTML):
 5. **Export** – saves `scene_best/scene_1..5.png`, `story.json`, and a **storybook HTML** (+ optional PDF).
 6. **Publish** – everything in `docs/` is served on **GitHub Pages**.
 
-> Note: The final pipeline uses **OpenAI CLIP** (ViT-L/14 by default), not OpenCLIP.
 
 ---
 
@@ -34,23 +32,22 @@ Storybook examples (HTML):
 
 ```text
 BookCreator-P2PB/
-├─ notebooks/
-│  └─ BookCreator_final.ipynb      # end-to-end Colab/Local notebook
-├─ code/                           # (optional) split helpers
-│  ├─ generate_scenes.py           # LLM prompting, parsing, de-dup
-│  ├─ make_reference.py            # auto reference + focal crop (OWL-ViT → CLIP → center)
-│  ├─ render_scenes.py             # SD1.5 + IP-Adapter, variant grid, CLIP ranking, export
-│  └─ utils_clip.py                # CLIP backends, text truncation (<77 tokens)
+├─ code/
+│  └─ storybook.ipynb      # end-to-end Colab/Local notebook
 ├─ docs/                           # GitHub Pages site
-│  ├─ index.html                   # gallery/links
-│  ├─ stories/                     # exported storybooks (HTML/PDF/images)
-│  └─ assets/                      # thumbnails used by index.html
-├─ outputs/                        # local artifacts (reference_*.png, scene_best/, story.json, …)
-├─ LICENSE
+│  ├─ index.html                    # Simple gallery/landing page
+│  ├─ puppy-playdate.html
+│  ├─ puppy-playdate.pdf
+│  ├─ puppy-playdate.png
+│  ├─ rainbow-kittens-adventure.html
+│  ├─ rainbow-kittens-adventure.pdf
+│  ├─ rainbow-kittens-adventure.png
+│  ├─ robot-waiter-at-the-table.html
+│  ├─ robot-waiter-at-the-table.pdf
+│  └─ robot-waiter-at-the-table.png
 └─ README.md
 ```
 
-> Keeping everything inside the notebook is fine. The `code/` split is just a clean option.
 
 ---
 
@@ -116,26 +113,6 @@ If best CLIP score < τ (e.g., ~0.27 for ViT-L/14), rerender 2–3 extra candida
 
 ---
 
-## 🌐 Publish with GitHub Pages
-
-1. Put site files in **`docs/`** (e.g., `docs/index.html`, `docs/stories/storybook_*`).  
-2. Repo → **Settings → Pages** → *Deploy from a branch* → Branch: `main` | Folder: `/docs` → **Save**.  
-3. Your site: `https://<username>.github.io/<repo>/`  
-   Example: `https://idobecher.github.io/BookCreator-P2PB/`
-
-**Minimal `docs/index.html` template**
-```html
-<!doctype html><meta charset="utf-8">
-<title>Book Creator – Demos</title>
-<h1>Book Creator – Demos</h1>
-<ul>
-  <li><a href="stories/storybook_cat.html">Rainbow Kitten’s Adventure</a></li>
-  <li><a href="stories/storybook_dog.html">Puppy’s Playdate</a></li>
-  <li><a href="stories/storybook_robot.html">Robot Waiter at the Table</a></li>
-</ul>
-```
-
----
 
 ## 🧪 Notes & tips
 
@@ -157,14 +134,8 @@ If best CLIP score < τ (e.g., ~0.27 for ViT-L/14), rerender 2–3 extra candida
 
 ---
 
-## 📝 License & Ethics
-
-- See `LICENSE`.  
-- Synthetic media; kid-friendly by design; we avoid “in-the-style-of [person]”; uploaded references are used with consent and not retained beyond the session; we document models/limits/failure modes.
-
----
 
 ## ✨ Project status
 
-Final notebook + helpers + published storybooks.  
+Final notebook + published storybooks.  
 Contributions (typo fixes / docs / small robustness patches) are welcome.
